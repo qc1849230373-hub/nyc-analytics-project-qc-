@@ -21,7 +21,7 @@ cleaned AS (
            business_address,
            street,
            latitude,
-           longitude,
+           longitude
        ),
 
        -- Identifiers
@@ -31,11 +31,11 @@ cleaned AS (
        -- Date/Time
        CAST(time_of_submission AS TIMESTAMP) AS time_of_submission,
 
-       -- Application details
+       -- Request details
        CAST(restaurant_name AS STRING) AS restaurant_name,
        CAST(legal_business_name AS STRING) AS legal_business_name,
-       CAST(doing_business_as_dba AS STRING) AS dba_name,
-       
+       CAST(doing_business_as_dba AS STRING) AS doing_business_as_dba,
+
        -- Location - clean zip code, handling several common zip code data problems
        CASE
            WHEN UPPER(TRIM(CAST(zip AS STRING))) IN ('N/A', 'NA') THEN NULL
@@ -73,6 +73,7 @@ cleaned AS (
    -- Filters
    WHERE objectid IS NOT NULL
    AND globalid IS NOT NULL
+   AND time_of_submission IS NOT NULL
    AND CAST(time_of_submission AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
 
@@ -81,4 +82,4 @@ cleaned AS (
 )
 
 SELECT * FROM cleaned
-
+-- All should be part of this table: stg_nyc_open_restaurant_apps
