@@ -89,3 +89,81 @@ sources:
             description: Y coordinate in NY State Plane projection system (NAD 83)
           - name: landmark
             description: Nearby landmark or point of interest
+
+      - name: source_nyc_open_restaurant_apps 
+        description: |
+          Raw data for NYC open Restaurant application
+        columns:
+          - name: objectid
+            description: Unique ID for the application record
+            tests:
+              - unique
+              - not_null
+          - name: globalid
+            description: Global unique identifier
+          - name: time_of_submission
+            description: Date and time the application submission
+          - name: restaurant_name
+            description: Name of restaurant
+          - name: legal_business_name
+            description: Legal name of the business
+          - name: doing_business_as_dba
+            description: Trade name under which the business operates 
+          - name: seating_interest_sidewalk
+            description: Indicates whether the establishment is interested in sidewalk seating
+          - name: food_service_establishment
+            description: Identifies if the entity is classified as a food service establishment
+          - name: approved_for_sidewalk_seating
+            description: Indicates whether sidewalk seating has been approved
+          - name: approved_for_roadway_seating
+            description: Indicates whether roadway seating has been approved
+          - name: qualify_alcohol
+            description: Indicates whether the establishment qualifies to serve alcohol
+          - name: sla_serial_number
+            description: Serial number issued by the State Liquor Authority
+          - name: sla_license_type
+            description: Type of liquor license held by the establishment
+          - name: healthcompliance_terms
+            description: Terms or conditions related to health compliance requirements
+          - name: bulding_number
+            description: Building number of the establishment
+          - name: street
+            description: Name of street where incident occurred
+          - name: borough
+            description: NYC borough where incident occurred
+          - name: zip
+            description: ZIP/postal code of the establishment
+          - name: business_address
+            description: Full address of the business
+          - name: sidewalk_dimensions_length
+            description: Length of the sidewalk seating area
+          - name: sidewalk_dimensions_width
+            description: Width of the sidewalk seating area
+          - name: sidewalk_dimensions_area
+            description: Total area of the sidewalk seating space
+          - name: roadway_dimensions_length
+            description: Length of the roadway seating area
+          - name: roadway_dimensions_width
+            description: Width of the roadway seating area
+          - name: roadway_dimensions_area
+            description: Total area of the roadway seating space
+          - name: landmark_district_or_building
+            description: Indicates whether the location is within a landmark district or designated building
+          - name: landmarkdistrict_terms
+            description: Specific terms or restrictions related to landmark designation
+          - name: community_board
+            description: Community board jurisdiction for the location
+          - name: council_district
+            description: City council district where the establishment is located
+          - name: census_tract
+            description: Census tract identifier
+          - name: latitude
+            description: Latitude coordinate
+          - name: longitude
+            description: Longitude coordinate
+          - name: bbl
+            description: Borough-Block-Lot identifier for the property
+          - name: bin
+            description: Building Identification Number (BIN)
+          - name: nta
+            description: Neighborhood Tabulation Area classification
