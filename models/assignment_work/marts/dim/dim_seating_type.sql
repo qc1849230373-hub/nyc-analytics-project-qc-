@@ -2,20 +2,19 @@
 WITH seating_types AS (
    SELECT DISTINCT
        seating_interest_sidewalk AS seating_interest,
-    CASE
-        WHEN LOWER(TRIM(approved_for_sidewalk_seating)) IN ('yes', 'y', 'true') THEN TRUE
-        WHEN LOWER(TRIM(approved_for_sidewalk_seating)) IN ('no', 'n', 'false') THEN FALSE
-        ELSE NULL
-     AS approved_for_sidewalk,
+        CASE
+           WHEN LOWER(TRIM(approved_for_sidewalk_seating)) IN ('yes', 'y', 'true') THEN TRUE
+           WHEN LOWER(TRIM(approved_for_sidewalk_seating)) IN ('no', 'n', 'false') THEN FALSE
+           ELSE NULL
+        END AS approved_for_sidewalk,
 
-    CASE
-        WHEN LOWER(TRIM(approved_for_roadway_seating)) IN ('yes', 'y', 'true') THEN TRUE
-        WHEN LOWER(TRIM(approved_for_roadway_seating)) IN ('no', 'n', 'false') THEN FALSE
-        ELSE NULL
---TODO: Replace this comment with a CASE WHEN .. statement that handles the different possibilities for approved_for_sidewalk_seating and approved_for_roadway_seating in the data
---NOTE: The final result we want to select here is two boolean columns (TRUE or FALSE values in them), one column approved_for_sidewalk (TRUE or FALSE value), and one column approved_for_roadway 
-      AS approved_for_roadway
-   FROM stg_nyc_open_restaurant_apps--TODO: reference the appropriate staging table!
+        CASE
+           WHEN LOWER(TRIM(approved_for_roadway_seating)) IN ('yes', 'y', 'true') THEN TRUE
+           WHEN LOWER(TRIM(approved_for_roadway_seating)) IN ('no', 'n', 'false') THEN FALSE
+           ELSE NULL
+        END AS approved_for_roadway
+   
+   FROM stg_nyc_open_restaurant_apps 
    WHERE seating_interest_sidewalk IS NOT NULL
 ),
 seating_dimension AS (
@@ -25,10 +24,9 @@ seating_dimension AS (
            'approved_for_sidewalk',
            'approved_for_roadway'
        ]) }} AS seating_type_key,
-                approved_for_sidewalk,
-                approved_for_roadway
-       -- TODO: fill in the rest of this SELECT statement
-       --  based on the dimensional model!
+       seating_interest,
+       approved_for_sidewalk,
+       approved_for_roadway
 
    FROM seating_types
 )
