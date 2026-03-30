@@ -14,7 +14,7 @@ WITH seating_types AS (
            ELSE NULL
         END AS approved_for_roadway
    
-   FROM stg_nyc_open_restaurant_apps 
+   FROM {{ ref('stg_nyc_open_restaurant_apps') }}
    WHERE seating_interest_sidewalk IS NOT NULL
 ),
 seating_dimension AS (
