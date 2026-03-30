@@ -71,7 +71,7 @@ cleaned AS (
    FROM source
 
    -- Filters
-   AND objectid IS NOT NULL
+   WHERE objectid IS NOT NULL
    AND globalid IS NOT NULL
    AND CAST(time_of_submission AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
