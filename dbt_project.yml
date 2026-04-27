@@ -24,17 +24,17 @@ models:
    assignment_work:
      staging:
        +materialized: table
-       +schema: nyc_transit_restaurants_staging
+       +schema: nyc_dog_complaint_staging
 
      marts:
        +materialized: table
-       +schema: nyc_transit_restaurants_marts
+       +schema: nyc_dog_complaint_staging
       
        shared:
          +materialized: table
 
-       open_restaurant_apps:
+       dog_licensing:
          +materialized: table
 
-       dot_311:
+       nyc_311_dog_complaint:
          +materialized: table
