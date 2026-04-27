@@ -86,4 +86,4 @@ cleaned AS (
 )
 
 SELECT * FROM cleaned
--- All should be part of this table: stg_nyc_311_dog_complaint
+-- All should be part of this table: stg_311nyc_Dog_Complaints
