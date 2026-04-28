@@ -3,7 +3,7 @@ WITH source AS (
 ), 
 cleaned AS (
    SELECT
-       * EXCEPT (
+       * EXCEPT(
            animalname,
            animalgender,
            animalbirth,
@@ -43,7 +43,7 @@ cleaned AS (
    FROM source
 
    -- Deduplicate
-   QUALIFY ROW_NUMBER() OVER ( ORDER BY licenseissueddate DESC) = 1
+   QUALIFY ROW_NUMBER() OVER (PARTITION BY animal_name ORDER BY licenseissueddate DESC) = 1
 )
 
 SELECT * FROM cleaned

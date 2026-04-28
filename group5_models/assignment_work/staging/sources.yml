@@ -112,3 +112,14 @@ sources:
             description: Date the dog license expires
           - name: extract_year
             description: The year this record was extracted
+
+      - name: source_Animal_Characteristics
+        description: |
+          Raw data for aninal charateristics
+        columns:
+          - name: breedname 
+            description: dog breed
+          - name: size_category
+            description: animal size (small, mid, larger)
+          - name: temperament
+            description: animal's temperament
