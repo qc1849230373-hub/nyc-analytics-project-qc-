@@ -4,7 +4,7 @@ config-version: 2
 # Some default settings for dbt
 profile: 'default'
 
-model-paths: ["models"]
+model-paths: ["group5_models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
@@ -24,17 +24,17 @@ models:
    assignment_work:
      staging:
        +materialized: table
-       +schema: nyc_dog_complaint_staging
+       +schema: 311nyc_Dog_Complaints_staging
 
      marts:
        +materialized: table
-       +schema: nyc_dog_complaint_staging
+       +schema: 311nyc_Dog_Complaints_staging
       
        shared:
          +materialized: table
 
-       dog_licensing:
+       nyc_dog_licensing:
          +materialized: table
 
-       nyc_311_dog_complaint:
+       311nyc_Dog_Complaints:
          +materialized: table

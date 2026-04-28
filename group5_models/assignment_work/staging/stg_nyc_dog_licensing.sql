@@ -1,30 +1,24 @@
--- Clean and standardize nyc dog licensing data
--- One row per application
-
 WITH source AS (
    SELECT * FROM {{ source('raw', 'source_nyc_dog_licensing') }}
-), -- Easier to refer to the dbt reference to a long name table this way
-
+),
 cleaned AS (
    SELECT
-       -- Get all columns from source, except ones we're transforming below
-       -- To do cleaning on them or explicitly cast them as types just in case
        * EXCEPT (
            extract_year,
            animalname,
-           animalgender
+           animalgender,
+           animalbirth,
            breedname,
            zipcode,
            licenseissueddate,
            licenseexpireddate,
        ),
 
-       -- Identifiers
-
        -- Date/Time
        CAST(extract_year AS TIMESTAMP) AS time_of_submission,
        CAST(licenseissueddate AS TIMESTAMP) AS license_issued_date,
        CAST(licenseexpireddate AS TIMESTAMP) AS license_expired_date,
+       CAST(animalbirth AS TIMESTAMP) AS animal_birth,
 
        -- Request details
        CAST(animalname AS STRING) AS animal_name,
@@ -42,8 +36,6 @@ cleaned AS (
            ELSE NULL
        END AS zip_code,
 
-       -- Clearer column name as well for this one
-
        -- Metadata
        CURRENT_TIMESTAMP() AS _stg_loaded_at
 
@@ -55,7 +47,6 @@ cleaned AS (
    AND CAST(licenseissueddate AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
    AND licenseexpireddate IS NOT NULL
 
-   -- Deduplicate
 )
 
 SELECT * FROM cleaned

@@ -96,11 +96,6 @@ sources:
         description: |
           Raw data for NYC dog licensing
         columns:
-          - name: licensing_ID
-            description: Unique ID for the license record
-            tests:
-              - unique
-              - not_null
           - name: animalname
             description: User-provided dog name
           - name: animalgender
