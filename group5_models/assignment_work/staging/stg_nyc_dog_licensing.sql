@@ -1,10 +1,9 @@
 WITH source AS (
    SELECT * FROM {{ source('raw', 'source_nyc_dog_licensing') }}
-),
+), 
 cleaned AS (
    SELECT
        * EXCEPT (
-           extract_year,
            animalname,
            animalgender,
            animalbirth,
@@ -12,16 +11,18 @@ cleaned AS (
            zipcode,
            licenseissueddate,
            licenseexpireddate,
+           extract_year
        ),
 
        -- Date/Time
-       CAST(extract_year AS TIMESTAMP) AS time_of_submission,
        CAST(licenseissueddate AS TIMESTAMP) AS license_issued_date,
        CAST(licenseexpireddate AS TIMESTAMP) AS license_expired_date,
+       CAST(extract_year AS TIMESTAMP) AS extract_year,
        CAST(animalbirth AS TIMESTAMP) AS animal_birth,
 
        -- Request details
        CAST(animalname AS STRING) AS animal_name,
+       CAST(animalgender AS STRING) AS animal_gender,
        CAST(breedname AS STRING) AS breed_name,
 
        -- Location - clean zip code, handling several common zip code data problems
@@ -34,20 +35,15 @@ cleaned AS (
                AND REGEXP_CONTAINS(CAST(zipcode AS STRING), r'^\d{5}-\d{4}')
            THEN CAST(zipcode AS STRING)
            ELSE NULL
-       END AS zip_code,
+       END AS zipcode,
 
        -- Metadata
        CURRENT_TIMESTAMP() AS _stg_loaded_at
 
    FROM source
 
-   -- Filters
-   WHERE animalname IS NOT NULL
-   AND licenseissueddate IS NOT NULL
-   AND CAST(licenseissueddate AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
-   AND licenseexpireddate IS NOT NULL
-
+   -- Deduplicate
+   QUALIFY ROW_NUMBER() OVER ( ORDER BY licenseissueddate DESC) = 1
 )
 
 SELECT * FROM cleaned
--- All shoulld be part of this table: stg_nyc_dog_licensing
